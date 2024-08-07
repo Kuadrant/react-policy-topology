@@ -1,70 +1,84 @@
-# Getting Started with Create React App
+# PolicyTopology Component
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+`PolicyTopology` is a reusable React component for visualizing policy topologies using DOT strings.
 
-## Available Scripts
+## Getting Started
 
-In the project directory, you can run:
+### Installation
 
-### `npm start`
+To install the dependencies, run:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```bash
+npm install
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Usage
 
-### `npm test`
+To use the `PolicyTopology` component, import it into your React application and pass the required props.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+TODO: Publish to npm.
 
-### `npm run build`
+```jsx
+import React from 'react';
+import PolicyTopology from './PolicyTopology';
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+const App = () => {
+  const dotString = `your DOT string here`;
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+  return (
+    <div className="App">
+      <PolicyTopology dotString={dotString} />
+    </div>
+  );
+};
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+export default App;
+```
 
-### `npm run eject`
+### Props
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- `dotString` (string): The DOT string representing the graph to visualise.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Development
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+To start the development server, run:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```bash
+npm start
+```
 
-## Learn More
+This runs the app in development mode. Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Building
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+To build the app for production, run:
 
-### Code Splitting
+```bash
+npm run build
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+The build artifacts will be stored in the `build/` directory.
 
-### Analyzing the Bundle Size
+### Testing
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+To run the test suite, run:
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```bash
+npm test
+```
 
 ### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+To deploy the app, follow the deployment instructions specific to your hosting provider.
 
-### `npm run build` fails to minify
+### Example App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+An example app is included in the repository to demonstrate the usage of the `PolicyTopology` component. To run the example app, navigate to the `example` directory and follow the instructions in the README file.
+
+## Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request.
+
+## License
+
+This project is licensed under the Apache v2 License.
