@@ -2,6 +2,8 @@
 
 `PolicyTopology` is a reusable React component for visualizing policy topologies using DOT strings.
 
+![PolicyTopology](./sample.png)
+
 ## Getting Started
 
 ### Installation
