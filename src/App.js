@@ -1,23 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
-import graphlib from 'graphlib';
-import * as dot from 'graphlib-dot';
-import { Dropdown, DropdownToggle, DropdownItem, Title } from '@patternfly/react-core';
+import React from 'react';
 import PolicyTopology from './PolicyTopology';
 import './App.css';
 
 function App() {
-  const graphRef = useRef(null); // useRef to hold the graph reference
-  const [filteredDot, setFilteredDot] = useState('');
-  const [selectedNode, setSelectedNode] = useState('');
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [dropdownItems, setDropdownItems] = useState([]);
-  const [selectedLabel, setSelectedLabel] = useState(''); // hold the selected label
-
   const dotString = `
     strict digraph "" {
       graph [bb="0,0,440.51,352"];
       node [fillcolor=lightgrey,
-        label="\N",
+        label="",
         shape=ellipse
       ];
       "gateway.gateway.networking.k8s.io:default/prod-web"	 [fillcolor="#e5e5e5",
@@ -122,100 +112,11 @@ function App() {
     }
   `;
 
-  useEffect(() => {
-    const g = dot.read(dotString);
-    console.log('Graph initialized:', g);
-    graphRef.current = g;
-    setFilteredDot(dotString);
-
-    const items = [
-      <DropdownItem key="reset" component="button" onClick={() => handleNodeSelection(null)}>
-        -
-      </DropdownItem>,
-      ...g.nodes().map(node => (
-        <DropdownItem key={node} component="button" onClick={() => handleNodeSelection(node)}>
-          {g.node(node).label}
-        </DropdownItem>
-      )),
-    ];
-    setDropdownItems(items);
-  }, [dotString]);
-
-  const handleNodeSelection = (nodeId) => {
-    console.log("Node selected:", nodeId);
-    setSelectedNode(nodeId);
-
-    const graph = graphRef.current; // Use the graph reference
-    if (!graph) {
-      console.error('Graph is not initialized');
-      return;
-    }
-    console.log("Current graph state:", graph);
-
-    if (nodeId === null) {
-      // Reset filtering
-      setSelectedLabel('Select a resource');
-      setFilteredDot(dotString);
-      return;
-    }
-
-    const selectedNodeLabel = graph.node(nodeId).label;
-    setSelectedLabel(selectedNodeLabel);
-
-    const filteredGraph = new graphlib.Graph();
-    const nodesToInclude = new Set();
-
-    const addPredecessors = (node) => {
-      if (!nodesToInclude.has(node)) {
-        nodesToInclude.add(node);
-        const predecessors = graph.predecessors(node) || [];
-        predecessors.forEach(addPredecessors);
-      }
-    };
-
-    const addSuccessors = (node) => {
-      const successors = graph.successors(node) || [];
-      successors.forEach(successor => {
-        nodesToInclude.add(successor);
-      });
-    };
-
-    addPredecessors(nodeId);
-    addSuccessors(nodeId);
-
-    nodesToInclude.forEach(node => {
-      filteredGraph.setNode(node, graph.node(node));
-    });
-
-    graph.edges().forEach(edge => {
-      if (nodesToInclude.has(edge.v) && nodesToInclude.has(edge.w)) {
-        filteredGraph.setEdge(edge.v, edge.w, graph.edge(edge.v, edge.w));
-      }
-    });
-
-    const filteredDotString = dot.write(filteredGraph);
-    console.log('Filtered DOT string:', filteredDotString);
-    setFilteredDot(filteredDotString);
-  };
-
-  const onToggle = (isOpen) => {
-    setIsDropdownOpen(isOpen);
-  };
-
   return (
     <div className="App">
       <header className="App-header">
         <h1>Policy Topology Example</h1>
-        <Title headingLevel="h2" size="lg" className="pf-m-lg">
-          Pick a resource to filter by
-        </Title>
-        <Dropdown
-          onSelect={() => setIsDropdownOpen(false)}
-          toggle={<DropdownToggle onToggle={onToggle}>{selectedLabel || 'Select a resource'}</DropdownToggle>}
-          isOpen={isDropdownOpen}
-          dropdownItems={dropdownItems}
-        />
-        <PolicyTopology dot={filteredDot} />
+        <PolicyTopology dotString={dotString} />
       </header>
     </div>
   );
