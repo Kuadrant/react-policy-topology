@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useCallback, useState } from 'react';
 import { instance } from '@viz-js/viz';
 import graphlib from 'graphlib';
 import * as dot from 'graphlib-dot';
-import { Dropdown, DropdownToggle, DropdownItem, Title } from '@patternfly/react-core';
+import { Dropdown, DropdownToggle, DropdownItem, Title, Button } from '@patternfly/react-core';
+import './PolicyTopology.css'; // Ensure you import the CSS file
 
 const PolicyTopology = ({ dotString }) => {
   const containerRef = useRef(null);
@@ -43,7 +44,13 @@ const PolicyTopology = ({ dotString }) => {
       return;
     }
 
-    const selectedNodeLabel = graph.node(nodeId).label;
+    const selectedNode = graph.node(nodeId);
+    if (!selectedNode) {
+      console.error(`Selected node not found in graph. nodeId: ${nodeId}`);
+      return;
+    }
+
+    const selectedNodeLabel = selectedNode.label;
     setSelectedLabel(selectedNodeLabel);
 
     const filteredGraph = new graphlib.Graph();
@@ -85,14 +92,36 @@ const PolicyTopology = ({ dotString }) => {
     setIsDropdownOpen(isOpen);
   };
 
+  const handleNodeClick = (event) => {
+    const nodeElement = event.target.closest('g.node');
+    if (!nodeElement) {
+      console.error('No node element found');
+      return;
+    }
+    const nodeId = nodeElement.querySelector('title').textContent;
+    console.log(`Node clicked: ${nodeId}`);
+    handleNodeSelection(nodeId);
+  };
+
+  const resetGraph = () => {
+    setSelectedLabel('Select a resource');
+    setFilteredDot(dotString);
+  };
+
   useEffect(() => {
     if (containerRef.current && filteredDot) {
       instance().then(viz => {
         return viz.renderSVGElement(filteredDot);
       }).then(svgElement => {
         if (containerRef.current) {
-          containerRef.current.innerHTML = ''; // Clean up previous graph
+          containerRef.current.innerHTML = '';
           containerRef.current.appendChild(svgElement);
+
+          // Add click event listeners to nodes
+          const nodes = svgElement.querySelectorAll('g.node');
+          nodes.forEach(node => {
+            node.addEventListener('click', handleNodeClick);
+          });
         }
       }).catch(error => {
         console.error('Error rendering DOT file:', error);
@@ -102,15 +131,18 @@ const PolicyTopology = ({ dotString }) => {
 
   return (
     <div className="policy-topology">
-      <Title headingLevel="h2" size="lg" className="pf-m-lg">
+      <Title headingLevel="h3" size="md" className="pf-m-md">
         Pick a resource to filter by
       </Title>
-      <Dropdown
-        onSelect={() => setIsDropdownOpen(false)}
-        toggle={<DropdownToggle onToggle={onToggle}>{selectedLabel || 'Select a resource'}</DropdownToggle>}
-        isOpen={isDropdownOpen}
-        dropdownItems={dropdownItems}
-      />
+      <div className="dropdown-container">
+        <Dropdown
+          onSelect={() => setIsDropdownOpen(false)}
+          toggle={<DropdownToggle onToggle={onToggle}>{selectedLabel || 'Select a resource'}</DropdownToggle>}
+          isOpen={isDropdownOpen}
+          dropdownItems={dropdownItems}
+        />
+        <Button variant="secondary" onClick={resetGraph} style={{ marginLeft: '10px' }}>Reset Graph</Button>
+      </div>
       <div ref={containerRef} className="policy-topology-container" />
     </div>
   );

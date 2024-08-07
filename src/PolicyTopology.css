@@ -4,3 +4,8 @@
     sans-serif;
   font-size: 0.3em;
 }
+
+.policy-topology-container g.node:hover polygon {
+  fill: #d3d3d3; /* Change the fill color on hover */
+  cursor: pointer; /* Change cursor to pointer on hover */
+}
