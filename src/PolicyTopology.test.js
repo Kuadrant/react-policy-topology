@@ -19,7 +19,7 @@ test('renders PolicyTopology and interacts with dropdown', async () => {
     render(<PolicyTopology dotString={dotString} />);
   });
 
-  // Check if the initial elements are rendered
+  // initial elements are rendered
   expect(screen.getByText(/Pick a resource to filter by/i)).toBeInTheDocument();
   expect(screen.getByText(/Select a resource/i)).toBeInTheDocument();
 

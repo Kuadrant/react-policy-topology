@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useCallback, useState } from 'react';
-import { instance } from '@viz-js/viz';
+import * as d3 from 'd3';
+import { graphviz } from 'd3-graphviz';
 import graphlib from 'graphlib';
 import * as dot from 'graphlib-dot';
 import { Dropdown, DropdownToggle, DropdownItem, Title, Button } from '@patternfly/react-core';
-import './PolicyTopology.css'; // Ensure you import the CSS file
+import './PolicyTopology.css';
 
 const PolicyTopology = ({ dotString }) => {
   const containerRef = useRef(null);
@@ -110,24 +111,22 @@ const PolicyTopology = ({ dotString }) => {
 
   useEffect(() => {
     if (containerRef.current && filteredDot) {
-      instance().then(viz => {
-        return viz.renderSVGElement(filteredDot);
-      }).then(svgElement => {
-        if (containerRef.current) {
-          containerRef.current.innerHTML = '';
-          containerRef.current.appendChild(svgElement);
-
-          // Add click event listeners to nodes
-          const nodes = svgElement.querySelectorAll('g.node');
-          nodes.forEach(node => {
-            node.addEventListener('click', handleNodeClick);
+      const renderGraph = () => {
+        d3.select(containerRef.current).graphviz()
+          .zoom(false)
+          .transition(() => d3.transition().duration(750))
+          .renderDot(filteredDot)
+          .on('end', () => {
+            const nodes = containerRef.current.querySelectorAll('g.node');
+            nodes.forEach(node => {
+              node.addEventListener('click', handleNodeClick);
+            });
           });
-        }
-      }).catch(error => {
-        console.error('Error rendering DOT file:', error);
-      });
+      };
+
+      renderGraph();
     }
-  }, [filteredDot]);
+  }, [filteredDot, handleNodeClick]);
 
   return (
     <div className="policy-topology">
