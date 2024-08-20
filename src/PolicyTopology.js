@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useCallback, useState } from 'react';
 import * as d3 from 'd3';
-import { graphviz } from 'd3-graphviz';
+import 'd3-graphviz';
 import graphlib from 'graphlib';
 import * as dot from 'graphlib-dot';
 import { Dropdown, DropdownToggle, DropdownItem, Title, Button } from '@patternfly/react-core';
@@ -13,24 +13,6 @@ const PolicyTopology = ({ dotString }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [dropdownItems, setDropdownItems] = useState([]);
   const [selectedLabel, setSelectedLabel] = useState('');
-
-  useEffect(() => {
-    const g = dot.read(dotString);
-    graphRef.current = g;
-    setFilteredDot(dotString);
-
-    const items = [
-      <DropdownItem key="reset" component="button" onClick={() => handleNodeSelection(null)}>
-        -
-      </DropdownItem>,
-      ...g.nodes().map(node => (
-        <DropdownItem key={node} component="button" onClick={() => handleNodeSelection(node)}>
-          {g.node(node).label}
-        </DropdownItem>
-      )),
-    ];
-    setDropdownItems(items);
-  }, [dotString]);
 
   const handleNodeSelection = useCallback((nodeId) => {
     const graph = graphRef.current;
@@ -89,11 +71,25 @@ const PolicyTopology = ({ dotString }) => {
     setFilteredDot(filteredDotString);
   }, [dotString]);
 
-  const onToggle = (isOpen) => {
-    setIsDropdownOpen(isOpen);
-  };
+  useEffect(() => {
+    const g = dot.read(dotString);
+    graphRef.current = g;
+    setFilteredDot(dotString);
 
-  const handleNodeClick = (event) => {
+    const items = [
+      <DropdownItem key="reset" component="button" onClick={() => handleNodeSelection(null)}>
+        -
+      </DropdownItem>,
+      ...g.nodes().map(node => (
+        <DropdownItem key={node} component="button" onClick={() => handleNodeSelection(node)}>
+          {g.node(node).label}
+        </DropdownItem>
+      )),
+    ];
+    setDropdownItems(items);
+  }, [dotString, handleNodeSelection]);
+
+  const handleNodeClick = useCallback((event) => {
     const nodeElement = event.target.closest('g.node');
     if (!nodeElement) {
       console.error('No node element found');
@@ -102,13 +98,16 @@ const PolicyTopology = ({ dotString }) => {
     const nodeId = nodeElement.querySelector('title').textContent;
     console.log(`Node clicked: ${nodeId}`);
     handleNodeSelection(nodeId);
+  }, [handleNodeSelection]);
+
+  const onToggle = (isOpen) => {
+    setIsDropdownOpen(isOpen);
   };
 
   const resetGraph = () => {
     setSelectedLabel('Select a resource');
     setFilteredDot(dotString);
   };
-
   useEffect(() => {
     if (containerRef.current && filteredDot) {
       const renderGraph = () => {
