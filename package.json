@@ -23,7 +23,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "mocha tests --timeout 10000",
-    "test:ci": "start-server-and-test start http://localhost:3000 'mocha tests --timeout 10000'",
+    "test:ci": "start-server-and-test start http://localhost:3000 'mocha tests --timeout 10000' --timeout 600000",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
