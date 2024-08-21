@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useCallback, useState } from 'react';
 import * as d3 from 'd3';
-import 'd3-graphviz';
+import { graphviz } from 'd3-graphviz'; // eslint-disable-line no-unused-vars
 import graphlib from 'graphlib';
 import * as dot from 'graphlib-dot';
 import { Dropdown, DropdownToggle, DropdownItem, Title, Button } from '@patternfly/react-core';
@@ -108,6 +108,7 @@ const PolicyTopology = ({ dotString }) => {
     setSelectedLabel('Select a resource');
     setFilteredDot(dotString);
   };
+
   useEffect(() => {
     if (containerRef.current && filteredDot) {
       const renderGraph = () => {
