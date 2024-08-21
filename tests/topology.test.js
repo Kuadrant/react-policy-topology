@@ -8,7 +8,7 @@ describe('PolicyTopology Page', function () {
   before(async function () {
     browser = await puppeteer.launch({ headless: true });
     page = await browser.newPage();
-    await page.goto('http://localhost:3000');
+    await page.goto('http://127.0.0.1:3000');
   });
 
   after(async function () {
