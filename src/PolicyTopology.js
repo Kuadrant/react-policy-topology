@@ -14,6 +14,24 @@ const PolicyTopology = ({ dotString }) => {
   const [dropdownItems, setDropdownItems] = useState([]);
   const [selectedLabel, setSelectedLabel] = useState('');
 
+  useEffect(() => {
+    const g = dot.read(dotString);
+    graphRef.current = g;
+    setFilteredDot(dotString);
+
+    const items = [
+      <DropdownItem key="reset" component="button" onClick={() => handleNodeSelection(null)}>
+        -
+      </DropdownItem>,
+      ...g.nodes().map(node => (
+        <DropdownItem key={node} component="button" onClick={() => handleNodeSelection(node)}>
+          {g.node(node).label}
+        </DropdownItem>
+      )),
+    ];
+    setDropdownItems(items);
+  }, [dotString]);
+
   const handleNodeSelection = useCallback((nodeId) => {
     const graph = graphRef.current;
     if (!graph) {
