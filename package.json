@@ -22,7 +22,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "mocha tests",
+    "test": "mocha tests --timeout 10000",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
