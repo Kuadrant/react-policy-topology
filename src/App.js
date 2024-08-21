@@ -1,5 +1,5 @@
 import React from 'react';
-import PolicyTopology from './PolicyTopology';
+import PolicyTopology from './PolicyTopology.js';
 import './App.css';
 
 function App() {

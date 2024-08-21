@@ -22,7 +22,7 @@ TODO: Publish to npm.
 
 ```jsx
 import React from 'react';
-import PolicyTopology from './PolicyTopology';
+import PolicyTopology from './PolicyTopology.js';
 
 const App = () => {
   const dotString = `your DOT string here`;
