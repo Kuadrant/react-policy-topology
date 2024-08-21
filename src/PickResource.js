@@ -1,10 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Dropdown, DropdownToggle, DropdownItem } from '@patternfly/react-core';
 
 const PickResource = ({ graph, onResourceSelect }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [dropdownItems, setDropdownItems] = useState([]);
   const [selectedLabel, setSelectedLabel] = useState('Select a resource');
+
+  const handleSelection = useCallback((nodeId) => {
+    setSelectedLabel(nodeId ? graph.node(nodeId).label : 'Select a resource');
+    onResourceSelect(nodeId);
+    setIsDropdownOpen(false);
+  }, [graph, onResourceSelect]);
 
   useEffect(() => {
     if (graph) {
@@ -20,13 +26,7 @@ const PickResource = ({ graph, onResourceSelect }) => {
       ];
       setDropdownItems(items);
     }
-  }, [graph]);
-
-  const handleSelection = (nodeId) => {
-    setSelectedLabel(nodeId ? graph.node(nodeId).label : 'Select a resource');
-    onResourceSelect(nodeId);
-    setIsDropdownOpen(false);
-  };
+  }, [graph, handleSelection]);
 
   const onToggle = (isOpen) => {
     setIsDropdownOpen(isOpen);
