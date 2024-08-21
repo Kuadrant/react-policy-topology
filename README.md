@@ -1,5 +1,7 @@
 # PolicyTopology Component
 
+[![npm version](https://img.shields.io/npm/v/react-policy-topology.svg?style=flat-square)](https://www.npmjs.com/package/react-policy-topology)
+
 `PolicyTopology` is a reusable React component for visualizing policy topologies using DOT strings.
 
 ![PolicyTopology](./sample.png)
@@ -8,22 +10,30 @@
 
 ### Installation
 
-To install the dependencies, run:
+To use the `PolicyTopology` component, you need to install the necessary dependencies.
+
+First, make sure you have Node.js (>=18) and npm installed. Then, in your project directory, run:
 
 ```bash
-npm install
+npm install react react-dom react-policy-topology
 ```
+
+This will install `react-policy-topology` along with its peer dependencies, `react` and `react-dom`.
 
 ### Usage
 
-To use the `PolicyTopology` component, import it into your React application and pass the required props.
+To use the `PolicyTopology` component in your React application, follow these steps:
 
-TODO: Publish to npm.
+1. Import the `PolicyTopology` component:
 
 ```jsx
 import React from 'react';
-import PolicyTopology from './PolicyTopology.js';
+import PolicyTopology from 'react-policy-topology';
+```
 
+2. Use the component in your application:
+
+```jsx
 const App = () => {
   const dotString = `your DOT string here`;
 
