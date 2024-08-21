@@ -48,3 +48,18 @@
     transform: rotate(360deg);
   }
 }
+
+.dot-string-editor {
+  margin-top: 20px;
+  max-width: 1000px;  /* Increase the max-width to make the textarea wider */
+  width: 100%;  /* Ensure the textarea takes the full width available */
+}
+
+.dot-string-editor h3 {
+  margin-bottom: 10px;
+}
+
+.large-textarea {
+  width: 100%;  /* Ensure the textarea takes the full width of its container */
+  font-size: 14px;  /* Optional: Adjust the font size */
+}
