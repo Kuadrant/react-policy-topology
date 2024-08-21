@@ -24,7 +24,8 @@ jobs:
 
     - run: npm run test:ci
 
+    - name: Authenticate with NPM
+      run: npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
+
     - name: Publish to NPM
       run: npm publish
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
