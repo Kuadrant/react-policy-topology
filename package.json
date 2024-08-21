@@ -2,6 +2,8 @@
   "name": "react-policy-topology",
   "version": "0.1.2",
   "type": "module",
+  "main": "src/main.js",
+  "module": "src/main.js",
   "dependencies": {
     "@patternfly/patternfly": "^4.224.5",
     "@patternfly/react-core": "^4.278.1",
