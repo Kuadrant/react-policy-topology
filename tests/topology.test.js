@@ -16,18 +16,23 @@ describe('PolicyTopology Page', function () {
   });
 
   it('should render and interact with dropdown', async function () {
-    const dropdownButton = await page.waitForSelector('#pf-dropdown-toggle-id-2');
-    await dropdownButton.click();
-    console.log('Dropdown found, attempting to click');
+    try {
+      const dropdownButton = await page.waitForSelector('[data-ouia-component-type="PF4/DropdownToggle"]');
+      await dropdownButton.click();
 
-    const gatewayItem = await page.waitForSelector('text=Gateway');
-    const listenerItem = await page.waitForSelector('text=Listener');
+      await page.waitForSelector('.pf-c-dropdown__menu', { visible: true });
 
-    expect(gatewayItem).to.not.be.null;
-    expect(listenerItem).to.not.be.null;
-    console.log('Gateway and Listener items found');
+      const gatewayItem = await page.waitForSelector('text=Gateway');
+      const listenerItem = await page.waitForSelector('text=Listener');
 
-    await gatewayItem.click();
-    console.log('Clicked on Gateway item');
+      expect(gatewayItem).to.not.be.null;
+      expect(listenerItem).to.not.be.null;
+
+      await gatewayItem.click();
+    } catch (error) {
+      const rootContent = await page.evaluate(() => document.querySelector('#root').innerHTML);
+      console.error('Error encountered, dumping #root content:\n', rootContent);
+      throw error;
+    }
   });
 });
