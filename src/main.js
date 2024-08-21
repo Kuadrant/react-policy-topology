@@ -1,2 +1,2 @@
-import PolicyTopology from './src/PolicyTopology';
+import PolicyTopology from './PolicyTopology';
 export default PolicyTopology;
