@@ -23,7 +23,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "mocha tests --timeout 10000",
-    "test:ci": "start-server-and-test start http://localhost:3000 'mocha tests --timeout 10000' --timeout 600000",
+    "test:ci": "npm start & wait-on http://localhost:3000 && mocha tests --timeout 10000",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -50,7 +50,7 @@
     "chai": "^5.1.1",
     "mocha": "^10.7.3",
     "puppeteer": "^23.1.1",
-    "start-server-and-test": "^2.0.5",
+    "wait-on": "^8.0.0",
     "webpack-dev-server": "4.14.0"
   }
 }
