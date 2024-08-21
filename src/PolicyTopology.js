@@ -12,25 +12,7 @@ const PolicyTopology = ({ dotString }) => {
   const [filteredDot, setFilteredDot] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [dropdownItems, setDropdownItems] = useState([]);
-  const [selectedLabel, setSelectedLabel] = useState('');
-
-  useEffect(() => {
-    const g = dot.read(dotString);
-    graphRef.current = g;
-    setFilteredDot(dotString);
-
-    const items = [
-      <DropdownItem key="reset" component="button" onClick={() => handleNodeSelection(null)}>
-        -
-      </DropdownItem>,
-      ...g.nodes().map(node => (
-        <DropdownItem key={node} component="button" onClick={() => handleNodeSelection(node)}>
-          {g.node(node).label}
-        </DropdownItem>
-      )),
-    ];
-    setDropdownItems(items);
-  }, [dotString]);
+  const [selectedLabel, setSelectedLabel] = useState('Select a resource');
 
   const handleNodeSelection = useCallback((nodeId) => {
     const graph = graphRef.current;
@@ -154,7 +136,7 @@ const PolicyTopology = ({ dotString }) => {
       <div className="dropdown-container">
         <Dropdown
           onSelect={() => setIsDropdownOpen(false)}
-          toggle={<DropdownToggle onToggle={onToggle}>{selectedLabel || 'Select a resource'}</DropdownToggle>}
+          toggle={<DropdownToggle onToggle={onToggle}>{selectedLabel}</DropdownToggle>}
           isOpen={isDropdownOpen}
           dropdownItems={dropdownItems}
         />
