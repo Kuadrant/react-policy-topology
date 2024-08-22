@@ -3,16 +3,16 @@ import * as d3 from 'd3';
 import { graphviz } from 'd3-graphviz'; // eslint-disable-line no-unused-vars
 import './PolicyTopology.css';
 
-const PolicyTopology = ({ filteredDot, onNodeClick }) => {
+const PolicyTopology = ({ dotString, onNodeClick }) => {
   const containerRef = useRef(null);
 
   useEffect(() => {
-    if (containerRef.current && filteredDot) {
+    if (containerRef.current && dotString) {
       const renderGraph = () => {
         d3.select(containerRef.current).graphviz()
           .zoom(false)
           .transition(() => d3.transition().duration(750))
-          .renderDot(filteredDot)
+          .renderDot(dotString)
           .on('end', () => {
             const nodes = containerRef.current.querySelectorAll('g.node');
             nodes.forEach(node => {
@@ -27,7 +27,7 @@ const PolicyTopology = ({ filteredDot, onNodeClick }) => {
 
       renderGraph();
     }
-  }, [filteredDot, onNodeClick]);
+  }, [dotString, onNodeClick]);
 
   return <div ref={containerRef} className="policy-topology-container" />;
 };

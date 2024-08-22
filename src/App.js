@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import PolicyTopology from './PolicyTopology.js';
 import PickResource from './PickResource.js';
 import ResetPolicyTopology from './ResetPolicyTopology.js';
-import DotStringEditor from './DotStringEditor.js'; // Import the new component
+import DotStringEditor from './DotStringEditor.js';
 import graphlib from 'graphlib';
 import * as dot from 'graphlib-dot';
 import './App.css';
@@ -118,20 +118,18 @@ function App() {
   `;
 
   const [dotString, setDotString] = useState(initialDotString);
-  const [filteredDot, setFilteredDot] = useState(dotString);
   const [graph, setGraph] = useState(null);
 
   useEffect(() => {
     const g = dot.read(dotString);
     setGraph(g);
-    setFilteredDot(dotString);
   }, [dotString]);
 
   const handleNodeSelection = useCallback((nodeId) => {
     if (!graph) return;
 
     if (nodeId === null) {
-      setFilteredDot(dotString);
+      setDotString(initialDotString);
       return;
     }
 
@@ -167,11 +165,11 @@ function App() {
     });
 
     const filteredDotString = dot.write(filteredGraph);
-    setFilteredDot(filteredDotString);
-  }, [graph, dotString]);
+    setDotString(filteredDotString);
+  }, [graph, initialDotString]);
 
   const resetGraph = () => {
-    setFilteredDot(dotString);
+    setDotString(initialDotString);
   };
 
   const handleDotStringChange = (newDotString) => {
@@ -186,7 +184,7 @@ function App() {
           <PickResource graph={graph} onResourceSelect={handleNodeSelection} />
           <ResetPolicyTopology onReset={resetGraph} />
         </div>
-        <PolicyTopology filteredDot={filteredDot} onNodeClick={handleNodeSelection} />
+        <PolicyTopology dotString={dotString} onNodeClick={handleNodeSelection} />
         <DotStringEditor dotString={dotString} onDotStringChange={handleDotStringChange} />
       </header>
     </div>
