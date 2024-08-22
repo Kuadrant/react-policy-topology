@@ -1,6 +1,6 @@
 {
   "name": "react-policy-topology",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "type": "module",
   "main": "src/main.js",
   "module": "src/main.js",

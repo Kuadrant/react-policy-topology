@@ -1,10 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import PolicyTopology from './PolicyTopology.js';
 import PickResource from './PickResource.js';
-import ResetPolicyTopology from './ResetPolicyTopology.js';
-import DotStringEditor from './DotStringEditor.js';
-import graphlib from 'graphlib';
-import * as dot from 'graphlib-dot';
+import * as dot from 'graphlib-dot'; // still needed for parsing dotString
 import './App.css';
 
 function App() {
@@ -117,75 +114,21 @@ function App() {
     }
   `;
 
-  const [dotString, setDotString] = useState(initialDotString);
   const [graph, setGraph] = useState(null);
 
   useEffect(() => {
-    const g = dot.read(dotString);
+    const g = dot.read(initialDotString);
     setGraph(g);
-  }, [dotString]);
-
-  const handleNodeSelection = useCallback((nodeId) => {
-    if (!graph) return;
-
-    if (nodeId === null) {
-      setDotString(initialDotString);
-      return;
-    }
-
-    const filteredGraph = new graphlib.Graph();
-    const nodesToInclude = new Set();
-
-    const addPredecessors = (node) => {
-      if (!nodesToInclude.has(node)) {
-        nodesToInclude.add(node);
-        const predecessors = graph.predecessors(node) || [];
-        predecessors.forEach(addPredecessors);
-      }
-    };
-
-    const addSuccessors = (node) => {
-      const successors = graph.successors(node) || [];
-      successors.forEach(successor => {
-        nodesToInclude.add(successor);
-      });
-    };
-
-    addPredecessors(nodeId);
-    addSuccessors(nodeId);
-
-    nodesToInclude.forEach(node => {
-      filteredGraph.setNode(node, graph.node(node));
-    });
-
-    graph.edges().forEach(edge => {
-      if (nodesToInclude.has(edge.v) && nodesToInclude.has(edge.w)) {
-        filteredGraph.setEdge(edge.v, edge.w, graph.edge(edge.v, edge.w));
-      }
-    });
-
-    const filteredDotString = dot.write(filteredGraph);
-    setDotString(filteredDotString);
-  }, [graph, initialDotString]);
-
-  const resetGraph = () => {
-    setDotString(initialDotString);
-  };
-
-  const handleDotStringChange = (newDotString) => {
-    setDotString(newDotString);
-  };
+  }, [initialDotString]);
 
   return (
     <div className="App">
       <header className="App-header">
         <h1>Policy Topology Example</h1>
         <div className="controls-container">
-          <PickResource graph={graph} onResourceSelect={handleNodeSelection} />
-          <ResetPolicyTopology onReset={resetGraph} />
+          <PickResource graph={graph} onResourceSelect={(nodeId) => {}} />
         </div>
-        <PolicyTopology dotString={dotString} onNodeClick={handleNodeSelection} />
-        <DotStringEditor dotString={dotString} onDotStringChange={handleDotStringChange} />
+        <PolicyTopology initialDotString={initialDotString} />
       </header>
     </div>
   );
