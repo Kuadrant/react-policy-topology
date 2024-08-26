@@ -91,7 +91,7 @@ const PolicyTopology = ({ initialDotString }) => {
   return (
     <div>
       <div className="policy-topology-container" ref={containerRef} />
-      <Button variant="secondary" onClick={resetGraph} style={{ marginTop: '10px' }}>
+      <Button variant="primary" onClick={resetGraph} style={{ marginTop: '10px' }}>
         Reset Graph
       </Button>
     </div>
