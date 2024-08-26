@@ -9,3 +9,9 @@
   fill: #d3d3d3; /* Change the fill color on hover */
   cursor: pointer; /* Change cursor to pointer on hover */
 }
+
+
+.policy-topology-container svg {
+  height: 100%;
+  width: auto;
+}

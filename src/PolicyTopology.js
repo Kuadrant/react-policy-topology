@@ -64,6 +64,7 @@ const PolicyTopology = ({ initialDotString }) => {
       const renderGraph = () => {
         d3.select(containerRef.current).graphviz()
           .zoom(false)
+          .fit(true)
           .transition(() => d3.transition().duration(750))
           .renderDot(dotString)
           .on('end', () => {
