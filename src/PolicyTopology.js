@@ -8,18 +8,10 @@ import './PolicyTopology.css';
 
 const PolicyTopology = ({ initialDotString }) => {
   const containerRef = useRef(null);
-  const [dotString, setDotString] = useState(initialDotString); // State for the dot string
+  const [dotString, setDotString] = useState(initialDotString);
   const [graph, setGraph] = useState(null);
 
-  // Parse the DOT string into a graph object
-  useEffect(() => {
-    if (dotString) {
-      const g = dot.read(dotString);
-      setGraph(g);
-    }
-  }, [dotString]);
-
-  // Function to handle node selection and update the graph
+  // Function to update graph when a node is selected
   const handleNodeSelection = useCallback((nodeId) => {
     if (!graph) return;
 
@@ -58,14 +50,23 @@ const PolicyTopology = ({ initialDotString }) => {
     setDotString(filteredDotString); // Update the dotString state
   }, [graph]);
 
-  // Render the graph when the component mounts or the dotString changes
+  // Parse the DOT string into a graph object when dotString changes
+  useEffect(() => {
+    if (dotString) {
+      const g = dot.read(dotString);
+      setGraph(g);
+    }
+  }, [dotString]);
+
+  // Render the graph with updates using d3-graphviz
   useEffect(() => {
     if (containerRef.current && graph) {
       const renderGraph = () => {
-        d3.select(containerRef.current).graphviz()
+        d3.select(containerRef.current)
+          .graphviz()
           .zoom(false)
           .fit(true)
-          .transition(() => d3.transition().duration(750))
+          .transition(() => d3.transition().duration(750)) // Animate transitions
           .renderDot(dotString)
           .on('end', () => {
             const nodes = containerRef.current.querySelectorAll('g.node');
