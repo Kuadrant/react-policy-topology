@@ -64,8 +64,9 @@ const PolicyTopology = ({ initialDotString }) => {
       const renderGraph = () => {
         d3.select(containerRef.current)
           .graphviz()
-          .zoom(false)
+          .height(containerRef.current.clientHeight) // Set SVG height to container height
           .fit(true)
+          .zoom(false)
           .transition(() => d3.transition().duration(750)) // Animate transitions
           .renderDot(dotString)
           .on('end', () => {
