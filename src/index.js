@@ -1,19 +1,41 @@
+// src/index.js
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App.js';
 import '@patternfly/patternfly/patternfly.css';
-
 import reportWebVitals from './reportWebVitals.js';
+import loadConfig from './config.js'; // Import the configuration loader
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+// Function to render the React application
+const renderApp = (config) => {
+  const root = ReactDOM.createRoot(document.getElementById('root'));
+  root.render(
+    <React.StrictMode>
+      <App config={config} />
+    </React.StrictMode>
+  );
+};
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+// Load configuration and then render the app
+loadConfig()
+  .then((config) => {
+    console.log('Configuration loaded:', config);
+    renderApp(config);
+  })
+  .catch((error) => {
+    console.error('Failed to load configuration:', error);
+    // Optionally, render a fallback UI or message
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(
+      <React.StrictMode>
+        <div style={{ padding: '20px', textAlign: 'center' }}>
+          <h1>Failed to load configuration.</h1>
+          <p>Please try refreshing the page.</p>
+        </div>
+      </React.StrictMode>
+    );
+  });
+
+// Measure performance (optional)
 reportWebVitals();

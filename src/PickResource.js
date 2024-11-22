@@ -1,30 +1,48 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Dropdown, DropdownToggle, DropdownItem } from '@patternfly/react-core';
+import React, { useState, useEffect, useCallback } from "react";
+import { Dropdown, DropdownToggle, DropdownItem } from "@patternfly/react-core";
 
 const PickResource = ({ graph, onResourceSelect }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [dropdownItems, setDropdownItems] = useState([]);
-  const [selectedLabel, setSelectedLabel] = useState('Select a resource');
+  const [selectedLabel, setSelectedLabel] = useState("Select a resource");
 
-  const handleSelection = useCallback((nodeId) => {
-    setSelectedLabel(nodeId ? graph.node(nodeId).label : 'Select a resource');
-    onResourceSelect(nodeId);
-    setIsDropdownOpen(false);
-  }, [graph, onResourceSelect]);
+  const handleSelection = useCallback(
+    (nodeId) => {
+      if (graph && typeof graph.node === "function") {
+        setSelectedLabel(
+          nodeId ? graph.node(nodeId).label : "Select a resource"
+        );
+      }
+      onResourceSelect(nodeId);
+      setIsDropdownOpen(false);
+    },
+    [graph, onResourceSelect]
+  );
 
   useEffect(() => {
-    if (graph) {
+    if (graph && typeof graph.nodes === "function") {
       const items = [
-        <DropdownItem key="reset" component="button" onClick={() => handleSelection(null)}>
+        <DropdownItem
+          key="reset"
+          component="button"
+          onClick={() => handleSelection(null)}
+        >
           -
         </DropdownItem>,
-        ...graph.nodes().map(node => (
-          <DropdownItem key={node} component="button" onClick={() => handleSelection(node)}>
-            {graph.node(node).label}
+        ...graph.nodes().map((node) => (
+          <DropdownItem
+            key={node}
+            component="button"
+            onClick={() => handleSelection(node)}
+          >
+            {graph.node(node)?.label || node}
           </DropdownItem>
         )),
       ];
       setDropdownItems(items);
+    } else {
+      console.warn("Invalid graph object:", graph);
+      setDropdownItems([]);
     }
   }, [graph, handleSelection]);
 
@@ -35,7 +53,9 @@ const PickResource = ({ graph, onResourceSelect }) => {
   return (
     <Dropdown
       onSelect={() => setIsDropdownOpen(false)}
-      toggle={<DropdownToggle onToggle={onToggle}>{selectedLabel}</DropdownToggle>}
+      toggle={
+        <DropdownToggle onToggle={onToggle}>{selectedLabel}</DropdownToggle>
+      }
       isOpen={isDropdownOpen}
       dropdownItems={dropdownItems}
     />
