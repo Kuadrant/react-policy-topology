@@ -28,7 +28,11 @@ describe('PolicyTopology Page', function () {
 
   after(async function () {
     if (browser) await browser.close();
-    if (wss) await new Promise((resolve) => wss.close(resolve));
+    if (wss) {
+      // close() waits for clients; spectator tabs (dev browsers) would hang it
+      for (const client of wss.clients) client.terminate();
+      await new Promise((resolve) => wss.close(resolve));
+    }
   });
 
   it('renders the topology graph from the websocket feed', async function () {
