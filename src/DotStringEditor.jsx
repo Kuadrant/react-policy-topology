@@ -9,21 +9,19 @@ const DotStringEditor = ({ dotString, onDotStringChange }) => {
     setLocalDotString(dotString);
   }, [dotString]);
 
-  const handleChange = (value) => {
+  const handleChange = (_event, value) => {
     setLocalDotString(value);
 
-    // Clear the existing timeout if there is one
+    // debounce updates by 1s
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
 
-    // Set a new timeout to trigger the update after 1 second of inactivity
     timeoutRef.current = setTimeout(() => {
       onDotStringChange(value);
-    }, 1000); // 1 second delay
+    }, 1000);
   };
 
-  // Clear the timeout on component unmount
   useEffect(() => {
     return () => {
       if (timeoutRef.current) {

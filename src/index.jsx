@@ -1,11 +1,9 @@
-// src/index.js
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App.js';
+import App from './App.jsx';
 import '@patternfly/patternfly/patternfly.css';
-import reportWebVitals from './reportWebVitals.js';
-import loadConfig from './config.js'; // Import the configuration loader
+import loadConfig from './config.js';
 
 // Function to render the React application
 const renderApp = (config) => {
@@ -36,6 +34,3 @@ loadConfig()
       </React.StrictMode>
     );
   });
-
-// Measure performance (optional)
-reportWebVitals();

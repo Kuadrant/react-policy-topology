@@ -12,7 +12,7 @@
 
 To use the `PolicyTopology` component, you need to install the necessary dependencies.
 
-First, make sure you have Node.js (>=18) and npm installed. Then, in your project directory, run:
+First, make sure you have Node.js (>=20.19) installed. Then, in your project directory, run:
 
 ```bash
 npm install react react-dom react-policy-topology
@@ -39,7 +39,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <PolicyTopology dotString={dotString} />
+      <PolicyTopology initialDotString={dotString} />
     </div>
   );
 };
@@ -49,43 +49,56 @@ export default App;
 
 ### Props
 
-- `dotString` (string): The DOT string representing the graph to visualise.
+- `initialDotString` (string): The DOT string representing the graph to visualise.
 
 ### Development
 
-To start the development server, run:
+This repo uses [pnpm](https://pnpm.io/) and [Vite](https://vite.dev/). To install dependencies:
 
 ```bash
-npm start
+pnpm install
 ```
 
-This runs the app in development mode. Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+To start the development server:
+
+```bash
+pnpm start
+```
+
+This runs the example app in development mode on [http://localhost:3000](http://localhost:3000). The app renders DOT strings received over a websocket at `ws://$WEBSOCKET_HOST:$WEBSOCKET_PORT/ws` (defaults: `localhost:4000`).
 
 ### Building
 
 To build the app for production, run:
 
 ```bash
-npm run build
+pnpm run build
 ```
 
-The build artifacts will be stored in the `build/` directory.
+The build artifacts will be stored in the `build/` directory. To serve them:
+
+```bash
+pnpm run server
+```
 
 ### Testing
 
-To run the test suite, run:
+To run the test suite (starts the dev server, a mock websocket feed, and browser tests):
 
 ```bash
-npm test
+pnpm run test:ci
 ```
 
-### Deployment
+### Running with Docker
 
-To deploy the app, follow the deployment instructions specific to your hosting provider.
+```bash
+docker build -t react-policy-topology .
 
-### Example App
-
-An example app is included in the repository to demonstrate the usage of the `PolicyTopology` component. To run the example app, navigate to the `example` directory and follow the instructions in the README file.
+docker run -d -p 5000:5000 \
+  -e WEBSOCKET_HOST=your.websocket.host \
+  -e WEBSOCKET_PORT=1234 \
+  react-policy-topology
+```
 
 ## Contributing
 
@@ -94,26 +107,3 @@ Contributions are welcome! Please open an issue or submit a pull request.
 ## License
 
 This project is licensed under the Apache v2 License.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-```bash
-docker build -t my-app .
-
-# Run the Docker container with environment variables
-docker run -d -p 5000:5000 \
-  -e WEBSOCKET_HOST=your.websocket.host \
-  -e WEBSOCKET_PORT=1234 \
-  my-app
-```

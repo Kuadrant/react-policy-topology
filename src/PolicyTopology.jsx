@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import * as d3 from "d3";
-import { graphviz } from "d3-graphviz"; // eslint-disable-line no-unused-vars
+import "d3-graphviz"; // registers .graphviz() on d3 selections
 import { Button } from "@patternfly/react-core";
 import graphlib from "graphlib";
 import * as dot from "graphlib-dot";

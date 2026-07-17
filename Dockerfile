@@ -1,19 +1,21 @@
-FROM node:18-alpine AS build
+FROM node:24-alpine AS build
 WORKDIR /app
-COPY package.json package-lock.json ./
+RUN npm install -g pnpm@10.29.2
 
-RUN npm install
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
 
 COPY . .
 
-RUN npm run build
+RUN pnpm run build
 
-FROM node:18-alpine
+FROM node:24-alpine
 
 WORKDIR /app
+RUN npm install -g pnpm@10.29.2
 
-COPY package.json package-lock.json ./
-RUN npm install --only=production
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --prod --frozen-lockfile
 COPY --from=build /app/build ./build
 COPY server.js ./
 

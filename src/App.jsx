@@ -1,12 +1,9 @@
-// src/App.js
 import React, { useState, useEffect } from "react";
-import PolicyTopology from "./PolicyTopology.js";
-import * as dot from "graphlib-dot"; // Needed to parse dotString
+import PolicyTopology from "./PolicyTopology.jsx";
 import "./App.css";
 
 function App({ config }) { // Receive config as a prop
   const [dotString, setDotString] = useState("");
-  const [graph, setGraph] = useState(null);
 
   useEffect(() => {
     let ws;
@@ -27,9 +24,6 @@ function App({ config }) { // Receive config as a prop
           const data = event.data;
           console.log("WebSocket message received:", data);
           setDotString(data);
-
-          const parsedGraph = dot.read(data);
-          setGraph(parsedGraph);
         } catch (error) {
           console.error("Error processing WebSocket message:", error);
         }

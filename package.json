@@ -1,59 +1,59 @@
 {
   "name": "react-policy-topology",
-  "version": "0.1.10",
+  "version": "0.2.0",
   "type": "module",
   "main": "src/main.js",
   "module": "src/main.js",
+  "files": [
+    "src"
+  ],
+  "packageManager": "pnpm@10.29.2",
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
   "dependencies": {
-    "@patternfly/patternfly": "^4.224.5",
-    "@patternfly/react-core": "^4.278.1",
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
+    "@patternfly/patternfly": "^6.6.0",
+    "@patternfly/react-core": "^6.6.0",
     "d3": "^7.9.0",
-    "d3-graphviz": "^5.4.0",
+    "d3-graphviz": "^5.6.0",
     "d3-selection": "^3.0.0",
+    "dotenv": "^17.2.4",
+    "express": "^5.2.1",
     "graphlib": "^2.1.8",
-    "graphlib-dot": "^0.6.4",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4",
-    "ws": "^8.18.0"
+    "graphlib-dot": "^0.6.4"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "mocha tests --timeout 10000",
-    "test:ci": "npm start & wait-on http://localhost:3000 && mocha tests --timeout 10000",
-    "eject": "react-scripts eject",
-    "server": "node server.js"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "peerDependencies": {
+    "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@puppeteer/browsers": "^2.3.1",
-    "chai": "^5.1.1",
-    "mocha": "^10.7.3",
-    "puppeteer": "^23.1.1",
-    "wait-on": "^8.0.0",
-    "webpack-dev-server": "4.14.0"
+    "@eslint/js": "^10.0.1",
+    "@vitejs/plugin-react": "^6.0.3",
+    "chai": "^6.2.2",
+    "eslint": "^10.7.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.3",
+    "globals": "^17.7.0",
+    "mocha": "^11.7.6",
+    "puppeteer": "^25.3.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "start-server-and-test": "^3.0.11",
+    "vite": "^8.1.5",
+    "ws": "^8.19.0"
+  },
+  "scripts": {
+    "start": "vite",
+    "build": "vite build",
+    "server": "node server.js",
+    "lint": "eslint .",
+    "test": "mocha tests --timeout 10000",
+    "test:ci": "start-server-and-test start http-get://127.0.0.1:3000 test"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "puppeteer"
+    ]
   }
 }

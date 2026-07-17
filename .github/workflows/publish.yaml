@@ -10,19 +10,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v7
+
+    - uses: pnpm/action-setup@v6
 
     - name: Use Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v7
       with:
-        node-version: '20'
-        cache: 'npm'
+        node-version: '24'
+        cache: 'pnpm'
 
-    - run: npm ci
+    - run: pnpm install --frozen-lockfile
 
-    - run: npm run build
+    - run: pnpm run lint
 
-    - run: npm run test:ci
+    - run: pnpm run build
+
+    - run: pnpm run test:ci
 
     - name: Authenticate with NPM
       run: npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
