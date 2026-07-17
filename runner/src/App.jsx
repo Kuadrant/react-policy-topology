@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import PolicyTopology from "./PolicyTopology.jsx";
+import PolicyTopology from "react-policy-topology";
 import "./App.css";
 
 function App({ config }) { // Receive config as a prop
@@ -12,7 +12,7 @@ function App({ config }) { // Receive config as a prop
       const { WEBSOCKET_HOST, WEBSOCKET_PORT } = config; // Destructure config
       const wsUrl = `ws://${WEBSOCKET_HOST}:${WEBSOCKET_PORT}/ws`;
       console.log(`Connecting to WebSocket at ${wsUrl}`);
-      
+
       ws = new WebSocket(wsUrl);
 
       ws.onopen = () => {

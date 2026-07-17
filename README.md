@@ -53,7 +53,7 @@ export default App;
 
 ### Development
 
-This repo uses [pnpm](https://pnpm.io/) and [Vite](https://vite.dev/). To install dependencies:
+This repo is a [pnpm](https://pnpm.io/) workspace: the npm package lives at the root, and the websocket runner app (built with [Vite](https://vite.dev/)) in `runner/`. To install dependencies:
 
 ```bash
 pnpm install
@@ -65,7 +65,7 @@ To start the development server:
 pnpm start
 ```
 
-This runs the example app in development mode on [http://localhost:3000](http://localhost:3000). The app renders DOT strings received over a websocket at `ws://$WEBSOCKET_HOST:$WEBSOCKET_PORT/ws` (defaults: `localhost:4000`).
+This runs the runner app in development mode on [http://localhost:3000](http://localhost:3000). The app renders DOT strings received over a websocket at `ws://$WEBSOCKET_HOST:$WEBSOCKET_PORT/ws` (defaults: `localhost:4000`; the mock in `runner/tests/topology.test.js` shows how to feed it).
 
 ### Building
 
@@ -75,7 +75,7 @@ To build the app for production, run:
 pnpm run build
 ```
 
-The build artifacts will be stored in the `build/` directory. To serve them:
+The build artifacts will be stored in the `runner/build/` directory. To serve them:
 
 ```bash
 pnpm run server

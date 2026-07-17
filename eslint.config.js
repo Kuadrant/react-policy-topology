@@ -4,7 +4,7 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 
 export default [
-  { ignores: ['build', 'node_modules'] },
+  { ignores: ['**/build', '**/node_modules'] },
   js.configs.recommended,
   {
     files: ['**/*.{js,jsx}'],
@@ -28,13 +28,13 @@ export default [
     },
   },
   {
-    files: ['tests/**'],
+    files: ['runner/tests/**'],
     languageOptions: {
       globals: { ...globals.node, ...globals.mocha },
     },
   },
   {
-    files: ['server.js', 'vite.config.js'],
+    files: ['runner/server.js', 'runner/vite.config.js'],
     languageOptions: {
       globals: globals.node,
     },

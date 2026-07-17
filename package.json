@@ -12,13 +12,10 @@
     "node": "^20.19.0 || >=22.12.0"
   },
   "dependencies": {
-    "@patternfly/patternfly": "^6.6.0",
     "@patternfly/react-core": "^6.6.0",
     "d3": "^7.9.0",
     "d3-graphviz": "^5.6.0",
     "d3-selection": "^3.0.0",
-    "dotenv": "^17.2.4",
-    "express": "^5.2.1",
     "graphlib": "^2.1.8",
     "graphlib-dot": "^0.6.4"
   },
@@ -28,32 +25,19 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@vitejs/plugin-react": "^6.0.3",
-    "chai": "^6.2.2",
     "eslint": "^10.7.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.3",
     "globals": "^17.7.0",
-    "mocha": "^11.7.6",
-    "puppeteer": "^25.3.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "start-server-and-test": "^3.0.11",
-    "vite": "^8.1.5",
-    "ws": "^8.19.0"
+    "react-dom": "^18.3.1"
   },
   "scripts": {
-    "start": "vite",
-    "build": "vite build",
-    "server": "node server.js",
+    "start": "pnpm --filter react-policy-topology-runner start",
+    "build": "pnpm --filter react-policy-topology-runner build",
+    "server": "pnpm --filter react-policy-topology-runner server",
     "lint": "eslint .",
-    "test": "mocha tests --timeout 10000",
-    "test:ci": "start-server-and-test start http-get://127.0.0.1:3000 test"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "puppeteer"
-    ]
+    "test": "pnpm --filter react-policy-topology-runner test",
+    "test:ci": "pnpm --filter react-policy-topology-runner test:ci"
   }
 }

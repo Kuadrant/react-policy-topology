@@ -17,6 +17,10 @@ const devConfigJs = () => ({
 
 export default defineConfig({
   plugins: [react(), devConfigJs()],
+  resolve: {
+    // single react instance when the workspace-linked library resolves its peers
+    dedupe: ['react', 'react-dom'],
+  },
   server: {
     host: '127.0.0.1',
     port: 3000,
