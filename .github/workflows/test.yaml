@@ -1,12 +1,10 @@
-name: Publish to NPM
+name: Test
 
 on:
-  push:
-    branches:
-      - main
+  pull_request:
 
 jobs:
-  publish:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -30,9 +28,3 @@ jobs:
     - run: pnpm run build
 
     - run: pnpm run test:ci
-
-    - name: Authenticate with NPM
-      run: npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
-
-    - name: Publish to NPM
-      run: npm publish

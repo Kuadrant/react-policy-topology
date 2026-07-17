@@ -1,21 +1,20 @@
-// src/App.js
 import React, { useState, useEffect } from "react";
-import PolicyTopology from "./PolicyTopology.js";
-import * as dot from "graphlib-dot"; // Needed to parse dotString
+import PolicyTopology from "react-policy-topology";
 import "./App.css";
 
 function App({ config }) { // Receive config as a prop
   const [dotString, setDotString] = useState("");
-  const [graph, setGraph] = useState(null);
 
   useEffect(() => {
     let ws;
+    let reconnectTimer;
+    let closed = false;
 
     const connectWebSocket = () => {
       const { WEBSOCKET_HOST, WEBSOCKET_PORT } = config; // Destructure config
       const wsUrl = `ws://${WEBSOCKET_HOST}:${WEBSOCKET_PORT}/ws`;
       console.log(`Connecting to WebSocket at ${wsUrl}`);
-      
+
       ws = new WebSocket(wsUrl);
 
       ws.onopen = () => {
@@ -27,17 +26,15 @@ function App({ config }) { // Receive config as a prop
           const data = event.data;
           console.log("WebSocket message received:", data);
           setDotString(data);
-
-          const parsedGraph = dot.read(data);
-          setGraph(parsedGraph);
         } catch (error) {
           console.error("Error processing WebSocket message:", error);
         }
       };
 
       ws.onclose = () => {
+        if (closed) return; // no reconnects once unmounted
         console.warn("WebSocket closed. Attempting to reconnect...");
-        setTimeout(connectWebSocket, 3000); // Retry after 3 seconds
+        reconnectTimer = setTimeout(connectWebSocket, 3000); // Retry after 3 seconds
       };
 
       ws.onerror = (error) => {
@@ -49,6 +46,8 @@ function App({ config }) { // Receive config as a prop
     connectWebSocket();
 
     return () => {
+      closed = true;
+      clearTimeout(reconnectTimer);
       if (ws) {
         ws.close();
       }

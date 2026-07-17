@@ -23,7 +23,8 @@ app.get('/config.js', (req, res) => {
   res.send(config);
 });
 
-app.get('*', (req, res) => {
+// spa fallback (bare '*' routes are invalid in express 5)
+app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 

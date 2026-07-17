@@ -1,0 +1,30 @@
+{
+  "name": "react-policy-topology-runner",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "dotenv": "17.4.2",
+    "express": "5.2.1"
+  },
+  "devDependencies": {
+    "@patternfly/patternfly": "^6.6.0",
+    "@vitejs/plugin-react": "^6.0.3",
+    "chai": "^6.2.2",
+    "mocha": "^11.7.6",
+    "puppeteer": "^25.3.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-policy-topology": "workspace:*",
+    "start-server-and-test": "^3.0.11",
+    "vite": "^8.1.5",
+    "ws": "^8.21.1"
+  },
+  "scripts": {
+    "start": "vite",
+    "build": "vite build",
+    "server": "node server.js",
+    "test": "mocha tests --timeout 10000",
+    "test:ci": "puppeteer browsers install chrome && start-server-and-test start http-get://127.0.0.1:3000 test"
+  }
+}

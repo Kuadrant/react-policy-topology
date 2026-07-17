@@ -14,12 +14,28 @@
 }
 
 .App-header {
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
+}
+
+/* graph fills the space left by the heading and button, no scrollbars */
+.App .policy-topology {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+}
+
+.App .policy-topology-container {
+  flex: 1;
+  min-height: 0;
+  height: auto;
 }
 
 .App .policy-topology-container svg text {
@@ -37,7 +53,7 @@
   width: 400px;
 } */
 
-.App .pf-c-dropdown__toggle {
+.App .pf-v6-c-menu-toggle {
   background-color: #fff;
   margin-bottom: 1em;
 }
