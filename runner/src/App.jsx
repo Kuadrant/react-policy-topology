@@ -7,6 +7,8 @@ function App({ config }) { // Receive config as a prop
 
   useEffect(() => {
     let ws;
+    let reconnectTimer;
+    let closed = false;
 
     const connectWebSocket = () => {
       const { WEBSOCKET_HOST, WEBSOCKET_PORT } = config; // Destructure config
@@ -30,8 +32,9 @@ function App({ config }) { // Receive config as a prop
       };
 
       ws.onclose = () => {
+        if (closed) return; // no reconnects once unmounted
         console.warn("WebSocket closed. Attempting to reconnect...");
-        setTimeout(connectWebSocket, 3000); // Retry after 3 seconds
+        reconnectTimer = setTimeout(connectWebSocket, 3000); // Retry after 3 seconds
       };
 
       ws.onerror = (error) => {
@@ -43,6 +46,8 @@ function App({ config }) { // Receive config as a prop
     connectWebSocket();
 
     return () => {
+      closed = true;
+      clearTimeout(reconnectTimer);
       if (ws) {
         ws.close();
       }
