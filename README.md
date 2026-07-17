@@ -94,3 +94,26 @@ Contributions are welcome! Please open an issue or submit a pull request.
 ## License
 
 This project is licensed under the Apache v2 License.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```bash
+docker build -t my-app .
+
+# Run the Docker container with environment variables
+docker run -d -p 5000:5000 \
+  -e WEBSOCKET_HOST=your.websocket.host \
+  -e WEBSOCKET_PORT=1234 \
+  my-app
+```
