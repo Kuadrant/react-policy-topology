@@ -25,6 +25,6 @@
     "build": "vite build",
     "server": "node server.js",
     "test": "mocha tests --timeout 10000",
-    "test:ci": "start-server-and-test start http-get://127.0.0.1:3000 test"
+    "test:ci": "puppeteer browsers install chrome && start-server-and-test start http-get://127.0.0.1:3000 test"
   }
 }
