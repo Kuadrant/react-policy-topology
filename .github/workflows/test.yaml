@@ -20,6 +20,9 @@ jobs:
 
     - run: pnpm install --frozen-lockfile
 
+    - name: Allow Chrome sandbox user namespaces
+      run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+
     - run: pnpm run lint
 
     - run: pnpm run build
