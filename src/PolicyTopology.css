@@ -12,10 +12,12 @@
 
 
 .policy-topology-container svg {
+  display: block;
+  width: 100%;
   height: 100%;
-  width: auto;
 }
 
 .policy-topology-container {
+  width: 100%;
   height: 700px;
 }

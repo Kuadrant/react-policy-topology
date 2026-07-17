@@ -23,6 +23,7 @@ describe('PolicyTopology Page', function () {
 
     browser = await puppeteer.launch({ headless: true });
     page = await browser.newPage();
+    await page.setViewport({ width: 1280, height: 760 });
     await page.goto('http://127.0.0.1:3000');
   });
 
@@ -39,6 +40,15 @@ describe('PolicyTopology Page', function () {
     await page.waitForSelector('.policy-topology-container svg g.node');
     const count = await countNodes(page);
     expect(count).to.equal(NODE_COUNT);
+  });
+
+  it('fits within the viewport without scrollbars', async function () {
+    const overflow = await page.evaluate(() => ({
+      horizontal: document.documentElement.scrollWidth > document.documentElement.clientWidth,
+      vertical: document.documentElement.scrollHeight > document.documentElement.clientHeight,
+    }));
+    expect(overflow.horizontal, 'horizontal scrollbar').to.equal(false);
+    expect(overflow.vertical, 'vertical scrollbar').to.equal(false);
   });
 
   it('filters the graph when a node is clicked', async function () {

@@ -81,15 +81,14 @@ const PolicyTopology = ({ initialDotString }) => {
       try {
         console.log("Rendering dotString with d3-graphviz:", dotString);
   
-        // Calculate dimensions dynamically based on viewport
-        const viewportWidth = window.innerWidth * 1.2; // Use 95% of the viewport width
-        const viewportHeight = window.innerHeight * 0.85; // Use 85% of the viewport height
-  
+        // size to the container, not the window, so the svg never overflows
+        const { clientWidth, clientHeight } = containerRef.current;
+
         const graphvizInstance = d3
           .select(containerRef.current)
           .graphviz()
-          .width(viewportWidth) // Set width to fill most of the viewport
-          .height(viewportHeight) // Set height to fill most of the viewport
+          .width(clientWidth)
+          .height(clientHeight)
           .fit(true) // Ensure it scales proportionally
           .zoom(false); // Disable zoom for now
   
@@ -124,7 +123,7 @@ const PolicyTopology = ({ initialDotString }) => {
   }, [initialDotString]);
 
   return (
-    <div>
+    <div className="policy-topology">
       <div className="policy-topology-container" ref={containerRef} />
       <Button
         variant="primary"
