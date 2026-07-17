@@ -9,6 +9,11 @@ jobs:
   publish:
     runs-on: ubuntu-latest
 
+    # oidc for npm trusted publishing
+    permissions:
+      id-token: write
+      contents: read
+
     steps:
     - uses: actions/checkout@v7
 
@@ -30,9 +35,6 @@ jobs:
     - run: pnpm run build
 
     - run: pnpm run test:ci
-
-    - name: Authenticate with NPM
-      run: npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
 
     - name: Publish to NPM
       run: npm publish
